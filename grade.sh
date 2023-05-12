@@ -14,3 +14,17 @@ echo 'Finished cloning'
 
 # Then, add here code to compile and run, and do any post-processing of the
 # tests
+
+file='./student-submission/ListExamples.java'
+if [[ ! -f "$file" ]]
+then
+    echo 'Missing file: ListExamples.java'
+    exit
+fi
+
+cp -r ./ ./grading-area
+
+cd ./grading-area
+
+javac -cp .:lib/hamcrest-core-1.3.jar:lib/junit-4.13.2.jar *.java
+java -cp .:lib/hamcrest-core-1.3.jar:lib/junit-4.13.2.jar org.junit.runner.JUnitCore TestDocSearch
