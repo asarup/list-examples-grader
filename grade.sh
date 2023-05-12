@@ -22,9 +22,21 @@ then
     exit
 fi
 
-cp -r ./ ./grading-area
+cp ./TestListExamples.java ./student-submission/* ./grading-area
+cp -r ./lib ./grading-area
 
 cd ./grading-area
 
-javac -cp .:lib/hamcrest-core-1.3.jar:lib/junit-4.13.2.jar *.java
-java -cp .:lib/hamcrest-core-1.3.jar:lib/junit-4.13.2.jar org.junit.runner.JUnitCore TestListExamples
+javac -cp .:lib/hamcrest-core-1.3.jar:lib/junit-4.13.2.jar *.java 2>compileerr.txt
+if [[ -s compileerr.txt ]]
+then
+    echo 'The submitted ListExamples.java file did not compile. The error can be seen below:'
+    cat compileerr.txt
+    exit
+else
+    echo 'Submission compiled successfully!'
+fi
+
+java -cp .:lib/hamcrest-core-1.3.jar:lib/junit-4.13.2.jar org.junit.runner.JUnitCore TestListExamples 1>results.txt
+
+cat results.txt
